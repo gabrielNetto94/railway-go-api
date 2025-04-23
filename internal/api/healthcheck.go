@@ -20,11 +20,15 @@ type Config struct {
 const version = "0.0.1"
 
 func (app *Application) HealthcheckHandler(w http.ResponseWriter, r *http.Request) {
+
+	app.Logger.Info("healthcheck endpoint hit")
+	// Set the content type to application/json
 	data := map[string]string{
 		"status":  "ok",
 		"version": version,
 	}
 
+	app.Logger.Info("healthcheck endpoint write json")
 	// No need to add acess control origin headers. On other routes, that may be necessary
 	err := app.WriteJSON(w, http.StatusOK, data, nil)
 	if err != nil {
