@@ -26,7 +26,7 @@ func main() {
 	cfg.Port = intPort
 
 	// create the logger
-	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelError}))
 
 	// create the application
 	app := &api.Application{
@@ -48,7 +48,7 @@ func main() {
 
 	// Start the server
 	err = srv.ListenAndServe()
-	logger.Error(err.Error())
+	logger.Error("Error on listen and serve: ", err.Error())
 	os.Exit(1)
 
 }

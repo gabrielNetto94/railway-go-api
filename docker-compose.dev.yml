@@ -1,0 +1,31 @@
+# volumes:
+#   pg_data:
+
+services:
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      - ./:/app
+    ports:
+      - "4000:4000" #http port
+    # depends_on:
+    #   - db
+    #   - cache
+
+  # db:
+  #   image: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_HOST_AUTH_METHOD=trust
+
+  # cache:
+  #   image: redis:latest
+  #   expose:
+  #     - 6379
+    # ports:
+    # - "6379:6379"

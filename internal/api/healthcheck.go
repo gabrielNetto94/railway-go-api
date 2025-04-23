@@ -24,14 +24,26 @@ func (app *Application) HealthcheckHandler(w http.ResponseWriter, r *http.Reques
 	app.Logger.Info("healthcheck endpoint hit")
 	// Set the content type to application/json
 	data := map[string]string{
-		"status":  "ok",
+		"status":  "ok3",
 		"version": version,
 	}
 
-	app.Logger.Info("healthcheck endpoint write json")
 	// No need to add acess control origin headers. On other routes, that may be necessary
-	err := app.WriteJSON(w, http.StatusOK, data, nil)
-	if err != nil {
+	if err := app.WriteJSON(w, http.StatusOK, data, nil); err != nil {
+		app.Logger.Error(err.Error())
+		http.Error(w, "server error", http.StatusInternalServerError)
+	}
+}
+
+func (app *Application) Ping(w http.ResponseWriter, r *http.Request) {
+
+	// Set the content type to application/json
+	data := map[string]string{
+		"message": "pong",
+	}
+
+	// No need to add acess control origin headers. On other routes, that may be necessary
+	if err := app.WriteJSON(w, http.StatusOK, data, nil); err != nil {
 		app.Logger.Error(err.Error())
 		http.Error(w, "server error", http.StatusInternalServerError)
 	}
@@ -42,6 +54,7 @@ func (app *Application) Routes() *httprouter.Router {
 
 	// Define the available routes
 	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.HealthcheckHandler)
+	router.HandlerFunc(http.MethodGet, "/ping", app.Ping)
 
 	return router
 }
