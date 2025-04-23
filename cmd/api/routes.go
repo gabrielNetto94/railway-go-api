@@ -11,6 +11,7 @@ func (app *application) routes() *httprouter.Router {
 
 	// Define the available routes
 	router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.healthcheckHandler)
+	router.HandlerFunc(http.MethodGet, "/v2/healthcheck", app.healthcheckHandler)
 
 	return router
 }
